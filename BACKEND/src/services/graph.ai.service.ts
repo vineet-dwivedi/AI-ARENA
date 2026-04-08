@@ -1,25 +1,29 @@
-import { StateSchema, MessagesValue, StateGraph, START, END } from "@langchain/langgraph";
+import { StateGraph, MessagesAnnotation, START, END} from "@langchain/langgraph";
+import { HumanMessage } from "@langchain/core/messages";
 
-type JUDGEMENT = {
-    winner: "solution_1"|"solution_2",
-    solution_1_score: number,
-    solution_2_score: number
-}
+// 1. Define State (prebuilt messages state)
+const State = MessagesAnnotation;
 
-type AIBATTELARENA = {
-    messages: typeof MessagesValue,
-    solution_1: string,
-    solution_2: string,
-    judgement: JUDGEMENT
-}
+// 2. Define node (logic)
+const solutionNode = async (state: typeof State.State) => {
+  // Just returning same messages (echo behavior)
+  return {
+    messages: state.messages,
+  };
+};
 
-const state : AIBATTELARENA = {
-    messages: MessagesValue,
-    solution_1: "",
-    solution_2: "",
-    judgement: {
-        winner: "solution_1",
-        solution_1_score: 0,
-        solution_2_score: 0
-    }
+// 3. Build graph
+const graph = new StateGraph(State)
+  .addNode("solution", solutionNode)
+  .addEdge(START, "solution") // correct way
+  .addEdge("solution", END)   // always end the graph
+  .compile();
+
+// 4. Export function
+export default async function (userMessage: string) {
+  const result = await graph.invoke({
+    messages: [new HumanMessage(userMessage)],
+  });
+
+  return result.messages;
 }
