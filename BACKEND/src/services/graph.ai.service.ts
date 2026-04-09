@@ -6,11 +6,11 @@ import {
   Annotation,
 } from "@langchain/langgraph";
 
-import { gemini,mistral,cohere } from "./model.service.js";
+import { gemini, mistral, cohere } from "./model.service.js";
 import { createAgent, providerStrategy } from "langchain";
 import { z } from "zod";
 
-// ✅ State Definition (stable version - no MessagesAnnotation bug)
+// ✅ State
 const State = Annotation.Root({
   messages: Annotation<BaseMessage[]>({
     default: () => [],
@@ -39,50 +39,95 @@ const State = Annotation.Root({
   }),
 });
 
-// ✅ Node 1: Generate solutions
-const solutionNode = async (state: typeof State.State) => {
-  const userQuery = state.messages[0]?.content as string;
-
-  const [mistralRes, cohereRes] = await Promise.all([
-    mistral.invoke(userQuery),
-    cohere.invoke(userQuery),
+// 🔥 Timeout helper (VERY IMPORTANT)
+const withTimeout = (promise: Promise<any>, ms = 20000) =>
+  Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Timeout")), ms)
+    ),
   ]);
 
-  return {
-    solution_1: mistralRes.content as string,
-    solution_2: cohereRes.content as string,
-  };
+// ✅ Node 1
+const solutionNode = async (state: typeof State.State) => {
+  try {
+    console.log("🚀 Running solutionNode");
+
+    const userQuery = state.messages[0]?.content as string;
+
+    const safeCall = async (fn: Promise<any>) => {
+      try {
+        return await withTimeout(fn, 40000);
+      } catch {
+        return { content: "Model failed" };
+      }
+    };
+
+    const [mistralRes, cohereRes] = await Promise.all([
+      safeCall(mistral.invoke(userQuery)),
+      safeCall(cohere.invoke(userQuery)),
+    ]);
+
+    console.log("✅ Solutions generated");
+
+    return {
+      solution_1: String(mistralRes.content),
+      solution_2: String(cohereRes.content),
+    };
+  } catch (err) {
+    console.error("❌ Error in solutionNode:", err);
+    throw err;
+  }
 };
-
-// ✅ Node 2: Judge
+// ✅ Node 2
 const judgeNode = async (state: typeof State.State) => {
-  const judge = createAgent({
-    model: gemini,
-    tools: [],
-    responseFormat: providerStrategy(
-      z.object({
-        solution_1_score: z.number().min(0).max(10),
-        solution_2_score: z.number().min(0).max(10),
-      })
-    ),
-  });
+  try {
+    console.log("⚖️ Running judgeNode");
 
-  const response = await judge.invoke({
-    messages: [
-      new HumanMessage(`
+    const judge = createAgent({
+      model: gemini,
+      tools: [],
+      responseFormat: providerStrategy(
+        z.object({
+          solution_1_score: z.number().min(0).max(10),
+          solution_2_score: z.number().min(0).max(10),
+        })
+      ),
+    });
+
+    const response = await withTimeout(
+      judge.invoke({
+        messages: [
+          new HumanMessage(`
 Problem: ${state.messages[0]?.content}
 
 Solution 1: ${state.solution_1}
 Solution 2: ${state.solution_2}
 
-Score both solutions from 0 to 10 and return JSON only.
+Return ONLY JSON:
+{ "solution_1_score": number, "solution_2_score": number }
 `),
-    ],
-  });
+        ],
+      }),
+      20000
+    );
 
-  return {
-    judge_recommendation: response.structuredResponse,
-  };
+    console.log("✅ Judge completed");
+
+    return {
+      judge_recommendation: response.structuredResponse,
+    };
+  } catch (err) {
+    console.error("❌ Judge failed:", err);
+
+    // 🔥 fallback (never break flow)
+    return {
+      judge_recommendation: {
+        solution_1_score: 5,
+        solution_2_score: 5,
+      },
+    };
+  }
 };
 
 // ✅ Graph
@@ -96,9 +141,23 @@ const graph = new StateGraph(State)
 
 // ✅ Runner
 export default async function (userMessage: string) {
-  const result = await graph.invoke({
-    messages: [new HumanMessage(userMessage)],
-  });
+  try {
+    console.log("🔥 Invoking graph");
 
-  return result;
+    const result = await graph.invoke({
+      messages: [new HumanMessage(userMessage)],
+    });
+
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (err) {
+    console.error("❌ Graph failed:", err);
+
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Unknown error",
+    };
+  }
 }
