@@ -18,6 +18,7 @@ const state = new StateSchema({
 })
 
 const solutionNode: GraphNode<typeof state> = async (state)=>{
+  console.log("SOLUTION NODE STARTED!!")
   const [mistralResponse, cohereResponse] = await Promise.all([
     mistral.invoke(state.problem),
     cohere.invoke(state.problem)
@@ -29,6 +30,7 @@ const solutionNode: GraphNode<typeof state> = async (state)=>{
 }
 
 const judgeNode: GraphNode<typeof state> = async (state) => {
+  console.log("JUDGEMENT STARTED!!")
     const { problem, solution_1, solution_2 } = state
 
     const judge = createAgent({
@@ -64,10 +66,10 @@ const judgeNode: GraphNode<typeof state> = async (state) => {
 
 const graph = new StateGraph(state)  //State Graph is mianly used to create nodes adn edges to make a chain of connection between different nodes.
       .addNode("solution",solutionNode)
-      .addNode("judge",judgeNode)
+      .addNode("judge_node",judgeNode)
       .addEdge(START,"solution")
-      .addEdge("solution","judge")
-      .addEdge("judge",END)
+      .addEdge("solution","judge_node")
+      .addEdge("judge_node",END)
       .compile();
 
 export default async function (problem: string) { 
