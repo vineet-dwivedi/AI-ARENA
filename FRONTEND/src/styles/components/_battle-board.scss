@@ -1,0 +1,47 @@
+.battle-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.battle-board__vs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-contrast);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 960px) {
+  .battle-board {
+    grid-template-columns: 1fr;
+  }
+
+  .battle-board__vs {
+    position: static;
+    justify-self: center;
+    transform: none;
+    order: 2;
+  }
+
+  .battle-board .model-card:first-child {
+    order: 1;
+  }
+
+  .battle-board .model-card:last-child {
+    order: 3;
+  }
+}

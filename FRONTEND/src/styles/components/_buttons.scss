@@ -1,0 +1,89 @@
+@use '../abstracts/mixins' as mixins;
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 0.95rem;
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) ease,
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+  }
+}
+
+.action-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-button--md {
+  min-height: 3.25rem;
+  padding: 0.9rem 1.2rem;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.action-button--sm {
+  min-height: 2.8rem;
+  padding: 0.7rem 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.action-button--primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  box-shadow: var(--shadow-soft);
+}
+
+.action-button--primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+
+.action-button--icon {
+  min-width: 2.8rem;
+  padding-inline: 0.9rem;
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.5rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: var(--pill-background);
+  color: var(--text-muted);
+  font-size: 0.67rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+.status-pill--accent {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  text-transform: none;
+}

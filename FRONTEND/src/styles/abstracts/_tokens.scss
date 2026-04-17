@@ -1,0 +1,77 @@
+:root {
+  --font-body: 'Aptos', 'Segoe UI', 'Trebuchet MS', sans-serif;
+  --font-heading: 'Trebuchet MS', 'Aptos Display', 'Aptos', sans-serif;
+  --font-mono: 'Consolas', 'SFMono-Regular', 'Liberation Mono', monospace;
+
+  --page-max-width: 1440px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+
+  --duration-fast: 180ms;
+  --duration-base: 240ms;
+  --duration-slow: 520ms;
+}
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --page-background: #191410;
+  --page-gradient:
+    radial-gradient(circle at top, rgba(63, 45, 32, 0.45), transparent 42%),
+    linear-gradient(180deg, #231b16 0%, #1b1612 45%, #15100d 100%);
+  --shell-background: rgba(31, 24, 19, 0.72);
+  --surface-panel: #2a231f;
+  --surface-card: #2c241f;
+  --surface-contrast: #231c17;
+  --surface-muted: rgba(255, 246, 239, 0.06);
+  --border-soft: rgba(196, 147, 100, 0.15);
+  --border-strong: rgba(199, 143, 91, 0.68);
+  --border-subtle: rgba(255, 246, 239, 0.08);
+  --text-primary: #f4ece5;
+  --text-secondary: #ccb9ab;
+  --text-muted: #9b887b;
+  --accent: #ba8055;
+  --accent-strong: #cf9264;
+  --accent-soft: rgba(186, 128, 85, 0.18);
+  --accent-contrast: #241711;
+  --pill-background: rgba(255, 244, 235, 0.08);
+  --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.22);
+  --shadow-strong: 0 20px 48px rgba(0, 0, 0, 0.28);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --page-background: #f7f1e8;
+  --page-gradient:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.98), transparent 40%),
+    linear-gradient(180deg, #fffdfa 0%, #f6efe6 52%, #eedfce 100%);
+  --shell-background: rgba(255, 255, 255, 0.74);
+  --surface-panel: #efe5d9;
+  --surface-card: #f5eee6;
+  --surface-contrast: #fbf7f2;
+  --surface-muted: rgba(255, 255, 255, 0.78);
+  --border-soft: rgba(107, 72, 57, 0.12);
+  --border-strong: rgba(107, 72, 57, 0.62);
+  --border-subtle: rgba(107, 72, 57, 0.08);
+  --text-primary: #3c2b21;
+  --text-secondary: #5d4a3e;
+  --text-muted: #8d7b6f;
+  --accent: #6b4839;
+  --accent-strong: #7c5645;
+  --accent-soft: rgba(107, 72, 57, 0.12);
+  --accent-contrast: #fff8f4;
+  --pill-background: rgba(107, 72, 57, 0.08);
+  --shadow-soft: 0 20px 60px rgba(86, 60, 41, 0.08);
+  --shadow-strong: 0 22px 52px rgba(86, 60, 41, 0.12);
+}

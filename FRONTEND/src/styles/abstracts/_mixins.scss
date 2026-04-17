@@ -1,0 +1,12 @@
+@mixin surface-card($padding: 1.5rem, $background: var(--surface-card)) {
+  padding: $padding;
+  background: $background;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+@mixin focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
