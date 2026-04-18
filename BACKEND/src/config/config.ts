@@ -6,6 +6,7 @@ type CONFIG = {
     readonly MISTRAL_API_KEY: string;
     readonly COHERE_API_KEY: string;
     readonly GOOGLE_API_KEY: string;
+    readonly FRONTEND_ORIGIN: string | undefined;
 };
 
 function getEnv(key:string):string {
@@ -16,10 +17,16 @@ function getEnv(key:string):string {
     return value;
 }
 
+function getOptionalEnv(key: string): string | undefined {
+    const value = process.env[key]?.trim();
+    return value ? value : undefined;
+}
+
 const envConfig: CONFIG = {
     MISTRAL_API_KEY: getEnv("MISTRAL_API_KEY"),
     COHERE_API_KEY: getEnv("COHERE_API_KEY"),
-    GOOGLE_API_KEY: getEnv("GOOGLE_API_KEY")
+    GOOGLE_API_KEY: getEnv("GOOGLE_API_KEY"),
+    FRONTEND_ORIGIN: getOptionalEnv("FRONTEND_ORIGIN")
 };
 
 export default envConfig;

@@ -9,8 +9,8 @@ function ResponseBlocks({ blocks }) {
         if (block.type === 'list') {
           return (
             <ul key={`list-${index}`} className="model-card__list">
-              {block.items.map((item) => (
-                <li key={item}>{item}</li>
+              {block.items.map((item, itemIndex) => (
+                <li key={`${item}-${itemIndex}`}>{item}</li>
               ))}
             </ul>
           )

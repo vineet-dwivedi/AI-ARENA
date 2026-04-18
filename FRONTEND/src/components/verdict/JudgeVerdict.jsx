@@ -18,6 +18,7 @@ function JudgeVerdict({
   battleRound,
   verdict,
   isReasoningOpen,
+  isLoading,
   onToggleReasoning,
   onRunAgain,
 }) {
@@ -114,7 +115,9 @@ function JudgeVerdict({
 
             <div className="judge-verdict__title-block">
               <div className="judge-verdict__reveal" ref={revealRef} aria-live="polite">
-                <span className="judge-verdict__reveal-label">Winner</span>
+                <span className="judge-verdict__reveal-label">
+                  {verdict.revealLabel || 'Winner'}
+                </span>
                 <strong className="judge-verdict__reveal-name">
                   {verdict.winnerModel}
                 </strong>
@@ -138,8 +141,12 @@ function JudgeVerdict({
           </div>
         </div>
 
-        <ActionButton icon={<RefreshIcon />} onClick={onRunAgain}>
-          Run Again
+        <ActionButton
+          disabled={isLoading}
+          icon={<RefreshIcon />}
+          onClick={onRunAgain}
+        >
+          {isLoading ? 'Running...' : 'Run Again'}
         </ActionButton>
       </div>
 

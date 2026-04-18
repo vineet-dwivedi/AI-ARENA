@@ -8,6 +8,8 @@ const MotionCard = motion.article
 const MotionWinner = motion.div
 
 function ModelCard({ index, response }) {
+  const hasLatency = Boolean(response.latency)
+  const hasSecondaryStat = Boolean(response.tokens)
   const cardClassName = [
     'model-card',
     response.isWinner ? 'model-card--winner' : '',
@@ -45,13 +47,20 @@ function ModelCard({ index, response }) {
           <StatusPill>{response.variant}</StatusPill>
         </div>
 
-        <div className="model-card__meta">
-          <span className="model-card__stat">
-            <ClockIcon />
-            {response.latency}
-          </span>
-          <span className="model-card__stat">{response.tokens}</span>
-        </div>
+        {hasLatency || hasSecondaryStat ? (
+          <div className="model-card__meta">
+            {hasLatency ? (
+              <span className="model-card__stat">
+                <ClockIcon />
+                {response.latency}
+              </span>
+            ) : null}
+
+            {hasSecondaryStat ? (
+              <span className="model-card__stat">{response.tokens}</span>
+            ) : null}
+          </div>
+        ) : null}
       </header>
 
       <ResponseBlocks blocks={response.blocks} />

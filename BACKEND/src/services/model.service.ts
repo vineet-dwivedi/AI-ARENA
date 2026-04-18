@@ -8,9 +8,9 @@ export const gemini = new ChatGoogle({
     apiKey: envConfig.GOOGLE_API_KEY
 })
 
-export const mistral = new ChatGoogle({
-    model: "gemini-2.5-flash-lite",
-    apiKey: envConfig.GOOGLE_API_KEY
+export const mistral = new ChatMistralAI({
+    model: "mistral-small-latest",
+    apiKey: envConfig.MISTRAL_API_KEY
 })
 
 export const cohere = new ChatCohere({

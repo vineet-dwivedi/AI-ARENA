@@ -15,6 +15,12 @@ npm run dev
 npm run build
 ```
 
+## Backend connection
+
+- The frontend calls `POST /use-graph` on `http://localhost:3000` by default.
+- Set `VITE_API_URL` in the frontend if your backend runs on a different host or port.
+- Optionally set `FRONTEND_ORIGIN` in the backend to a comma-separated allowlist for browser CORS.
+
 ## Folder structure
 
 ```text

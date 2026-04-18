@@ -30,7 +30,30 @@
 
 .prompt-composer__footer {
   display: flex;
+  align-items: flex-end;
+  gap: 1rem;
   justify-content: flex-end;
+}
+
+.prompt-composer__meta {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.prompt-composer__helper,
+.prompt-composer__error {
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.prompt-composer__helper {
+  color: var(--text-muted);
+}
+
+.prompt-composer__error {
+  color: #d96f6f;
 }
 
 @media (max-width: 640px) {
@@ -44,6 +67,8 @@
   }
 
   .prompt-composer__footer {
+    flex-direction: column;
+    align-items: stretch;
     justify-content: stretch;
   }
 }

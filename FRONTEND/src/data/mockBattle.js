@@ -64,6 +64,7 @@ export const arenaBattleMock = {
   ],
   verdict: {
     title: "Judge's Verdict",
+    revealLabel: 'Winner',
     summary: 'Model B wins',
     winnerModel: 'Mistral',
     winnerNote: 'Clearer structure, faster takeaways, stronger usability.',
