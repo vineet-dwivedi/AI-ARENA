@@ -1,8 +1,13 @@
+import { motion } from 'framer-motion'
 import StatusPill from '../common/StatusPill'
 import { ClockIcon } from '../icons/ArenaIcons'
+import { cardReveal, transitionEase } from '../../motion/variants'
 import ResponseBlocks from './ResponseBlocks'
 
-function ModelCard({ response }) {
+const MotionCard = motion.article
+const MotionWinner = motion.div
+
+function ModelCard({ index, response }) {
   const cardClassName = [
     'model-card',
     response.isWinner ? 'model-card--winner' : '',
@@ -11,11 +16,27 @@ function ModelCard({ response }) {
     .join(' ')
 
   return (
-    <article className={cardClassName}>
+    <MotionCard
+      className={cardClassName}
+      custom={index}
+      variants={cardReveal}
+      whileHover={{
+        y: -6,
+        transition: {
+          duration: 0.24,
+          ease: transitionEase,
+        },
+      }}
+    >
       {response.isWinner ? (
-        <div className="model-card__winner">
+        <MotionWinner
+          className="model-card__winner"
+          initial={{ opacity: 0, y: -10, scale: 0.85 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.42, delay: 0.24, ease: transitionEase }}
+        >
           <StatusPill tone="accent">Winner</StatusPill>
-        </div>
+        </MotionWinner>
       ) : null}
 
       <header className="model-card__header">
@@ -34,7 +55,7 @@ function ModelCard({ response }) {
       </header>
 
       <ResponseBlocks blocks={response.blocks} />
-    </article>
+    </MotionCard>
   )
 }
 

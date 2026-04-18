@@ -37,5 +37,6 @@ src/
 ## Implementation notes
 
 - Theme choice is persisted in `localStorage` through `useTheme`.
+- Smooth scrolling is handled by Lenis, entrance/layout motion by Framer Motion, and the judge winner reveal by GSAP.
 - Visual tokens live in `src/styles/abstracts/_tokens.scss` so the palette stays consistent across dark and light modes.
 - The current data in `src/data/mockBattle.js` is intentionally static to keep the first UI implementation simple and easy to swap with API responses later.

@@ -3,7 +3,8 @@
   --font-heading: 'Trebuchet MS', 'Aptos Display', 'Aptos', sans-serif;
   --font-mono: 'Consolas', 'SFMono-Regular', 'Liberation Mono', monospace;
 
-  --page-max-width: 1440px;
+  --page-max-width: 1760px;
+  --content-max-width: 1640px;
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 24px;
@@ -21,6 +22,7 @@
   --duration-fast: 180ms;
   --duration-base: 240ms;
   --duration-slow: 520ms;
+  --duration-theme: 460ms;
 }
 
 :root,

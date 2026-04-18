@@ -1,5 +1,9 @@
+html {
+  background-color: var(--page-background);
+}
+
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--page-gradient);
   background-color: var(--page-background);
   color: var(--text-primary);
@@ -9,6 +13,10 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition:
+    background-color var(--duration-theme) ease,
+    color var(--duration-theme) ease;
 }
 
 button,
@@ -26,6 +34,8 @@ textarea {
 
 #root {
   width: 100%;
+  min-height: 100dvh;
+  isolation: isolate;
 }
 
 a {
@@ -40,14 +50,54 @@ svg {
   background: var(--accent-soft);
 }
 
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
+body,
+.app-shell,
+.app-header,
+.prompt-composer,
+.model-card,
+.judge-verdict,
+.battle-board__vs,
+.action-button,
+.status-pill,
+.arena-mark,
+.judge-verdict__icon,
+.judge-verdict__accordion {
+  transition:
+    background-color var(--duration-theme) ease,
+    color var(--duration-theme) ease,
+    border-color var(--duration-theme) ease,
+    box-shadow var(--duration-theme) ease,
+    opacity var(--duration-theme) ease;
+}
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

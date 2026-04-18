@@ -1,9 +1,16 @@
 .app-header {
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem clamp(1.25rem, 2vw, 2rem);
+  width: min(100%, var(--content-max-width));
+  margin: 0 auto;
+  padding: 1rem clamp(1rem, 1.9vw, 2rem);
   border-bottom: 1px solid var(--border-soft);
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--page-background) 76%, transparent);
+  backdrop-filter: blur(18px);
 }
 
 .app-header__brand {
@@ -14,7 +21,7 @@
 
 .app-header__title {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 1vw + 0.8rem, 1.25rem);
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -31,4 +38,14 @@
   font-size: 0.65rem;
   font-weight: 800;
   letter-spacing: 0.06em;
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    padding: 0.9rem;
+  }
+
+  .app-header__brand {
+    gap: 0.55rem;
+  }
 }
